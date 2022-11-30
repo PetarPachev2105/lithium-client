@@ -1,0 +1,191 @@
+:root {
+    --main-black: #0E0E10;
+    --second-black: #353839;
+    --third-black: #555555;
+    --main-yellow: #fee715ff;
+    --main-white: #fff;
+    --msger-bg: var(--main-black);
+    --border: 1px solid var(--second-black);
+    --left-msg-bg: var(--main-yellow);
+    --right-msg-bg: var(--main-yellow);
+    --header-bg: var(--main-black);
+    --header-color: var(--main-yellow);
+    --submit-bg: var(--main-black);
+    --submit-color: var(--main-yellow);
+    --input-bg: var(--third-black);
+    --input-color: var(--main-white);
+    --button-bg: var(--main-black);
+    --button-bg-hover: var(--main-yellow);
+    --button-color-hover: var(--main-black);
+}
+
+.lithiumRoom {
+    display: flex;
+    flex-flow: column wrap;
+    position: relative;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    height: calc(100%);
+    border-top: var(--border);
+    border-radius: 5px;
+    background: var(--msger-bg);
+}
+
+.lithiumRoomHeader {
+    width: 100%;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: var(--border);
+    background: var(--header-bg);
+    color: var(--header-color);
+    margin-top: -2px;
+}
+
+.lithiumChat {
+    flex: 1;
+    overflow-y: hidden;
+    padding: 10px;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+::-webkit-scrollbar-track {
+    background: var(--main-black);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--main-black);
+}
+.lithiumMessage {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+.lithiumMessage:first-of-type {
+    margin-top: 40px;
+}
+
+.lithiumMessage:last-of-type {
+    margin-bottom: 60px;
+}
+.lithiumMessageImage {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    background: #ddd;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+}
+.lithiumMessageBubble {
+    max-width: 450px;
+    padding: 15px;
+    border-radius: 15px;
+    background: var(--left-msg-bg);
+}
+.lithiumMessageInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.lithiumMessageInfoName {
+    margin-right: 10px;
+    font-weight: bold;
+}
+.lithiumMessageInfoTime {
+    font-size: 0.85em;
+}
+
+.lithiumMessageContentRight {
+    float: right;
+}
+
+.lithiumMessageContentLeft {
+    float: left;
+}
+
+.leftLithiumMessage .lithiumMessageBubble {
+    border-bottom-left-radius: 0;
+}
+
+.rightLithiumMessage {
+    flex-direction: row-reverse;
+}
+.rightLithiumMessage .lithiumMessageBubble {
+    background: var(--right-msg-bg);
+    color: #101820FF;
+    border-bottom-right-radius: 0;
+}
+.rightLithiumMessage .lithiumMessageImage {
+    margin: 0 0 0 10px;
+}
+
+.lithiumRoomNewMessage {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    border-top: var(--border);
+    background: var(--submit-bg);
+    margin-bottom: 0;
+    padding: 0 10px 0 10px;
+    box-shadow: 10px 10px 10px 10px var(--main-yellow);
+}
+
+.lithiumRoomNewMessage * {
+    margin-bottom: 0;
+    padding: 10px;
+    bottom: 0;
+    border: none;
+    border-radius: 3px;
+    font-size: 1em;
+}
+.lithiumRoomMessageInput {
+    background: var(--input-bg);
+    color: var(--input-color);
+    width: 90%;
+    flex: 1;
+}
+.lithiumRoomMessageSend {
+    width: 8%;
+    margin-left: 10px;
+    background: var(--button-bg);
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.23s;
+}
+.lithiumRoomMessageSend:hover {
+    background: var(--button-bg-hover);
+    color: var(--button-color-hover);
+}
+
+.lithiumRoom {
+    background-color: var(--msger-bg);
+}
+
+.largeButton {
+    border: 0 !important;
+    border-radius: 3px !important;
+    margin-top: 10px;
+    width: 100%;
+    height: 30px;
+    background: var(--main-black) !important;
+    color: #fff !important;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.23s;
+}
+.largeButton:hover {
+    background: var(--button-bg-hover) !important;
+    color: var(--button-color-hover) !important;
+}

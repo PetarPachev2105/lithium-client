@@ -1,0 +1,38 @@
+.component {
+    text-align: center;
+    width: 50%;
+    margin:auto;
+}
+
+.signUpForm {
+    text-align: left;
+    width: 90%;
+    margin: auto;
+}
+
+.inputField {
+    background-color: var(--second-black)!important;
+    background: var(--second-black)!important;
+}
+
+.inputField * {
+    background-color: var(--second-black) !important;
+    background: var(--second-black) !important;
+    color: var(--main-white) !important;
+}
+
+.submitButton {
+    text-align: center !important;
+    font-weight: 600;
+    width: 100px;
+    height: 40px;
+    margin-top: 20px;
+    float: right;
+    background: var(--main-black) !important;
+    color: var(--main-white) !important;
+}
+
+.submitButton:hover {
+    background: var(--main-yellow) !important;
+    color: var(--main-black) !important;
+}

@@ -1,0 +1,71 @@
+.dialog {
+    background-color: var(--second-black) !important;
+    color: var(--main-white) !important;
+}
+
+.usersContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.userContainer {
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 75px;
+    background-color: var(--main-black) !important;
+    background: var(--main-black) !important;
+    color: var(--main-white) !important;
+    border-radius: 5px;
+    width: 100%;
+    box-shadow: 0 0 0 1px black;
+    margin-bottom: 10px;
+}
+
+.userContainer:hover {
+    background-color: var(--third-black) !important;
+    border: 1px solid var(--main-yellow) !important;
+}
+
+.userContainerUsernameContainer {
+    position: relative;
+    width: 30%;
+    height: 100%;
+    margin: auto;
+    float: left;
+}
+
+.userContainerUsername {
+    position: relative;
+    background-color: inherit !important;
+    color: inherit !important;
+    margin: auto;
+    width: 30%;
+    font-size: medium;
+    font-weight: 600;
+}
+
+.userContainerRemove {
+    position: relative;
+    height: 100%;
+    width: 15%;
+    margin: auto;
+    float: right;
+}
+
+.userContainerRemoveButton {
+    border: 0 !important;
+    border-radius: 3px !important;
+    width: 90%;
+    height: 30px;
+    margin: auto ;
+    background: var(--main-black) !important;
+    color: #fff !important;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.23s;
+}
+
+.userContainerRemoveButton:hover {
+    background: var(--button-bg-hover) !important;
+    color: var(--button-color-hover) !important;
+}

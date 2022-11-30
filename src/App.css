@@ -1,0 +1,38 @@
+.page {
+  height: 100%;
+  text-align: center;
+}
+
+.mainSmallButton {
+  border: 0 !important;
+  border-radius: 3px !important;
+  width: 100px;
+  height: 30px;
+  margin-top: 20px;
+  background: var(--main-black) !important;
+  color: #fff !important;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.23s;
+}
+.mainSmallButton:hover {
+  background: var(--button-bg-hover) !important;
+  color: var(--button-color-hover) !important;
+}
+
+.mainBigButton {
+  border: 0 !important;
+  border-radius: 3px !important;
+  width: 100px;
+  height: 30px;
+  margin-top: 20px;
+  background: var(--main-black) !important;
+  color: #fff !important;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.23s;
+}
+.mainBigButton:hover {
+  background: var(--button-bg-hover) !important;
+  color: var(--button-color-hover) !important;
+}
