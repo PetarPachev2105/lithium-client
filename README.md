@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Lithium Client
 
 This project was created with [Create React App](https://github.com/facebook/create-react-app).
 
