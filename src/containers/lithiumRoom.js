@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Classes, Dialog, FormGroup, Intent, Position, Toaster, Toast, Icon} from '@blueprintjs/core';
-import {HotKeys, configure} from "react-hotkeys";
+import { HotKeys } from "react-hotkeys";
 
 import VirtualLithiumRoom from "../models/virtualLithiumRoom";
 import {v1} from 'uuid';
@@ -46,14 +46,6 @@ class LithiumRoom extends Component {
         this.lithiumRoomRef = React.createRef(null);
         this.firstMessageRef = React.createRef(null);
         this.lastMessageRef = React.createRef(null);
-
-        configure({
-            ignoreTags: ['input'],
-            ignoreEventsCondition: function () {
-            },
-            ignoreRepeatedEventsWhenKeyHeldDown: false,
-            defaultKeyEvent: 'enter',
-        });
     }
 
     /**
@@ -141,10 +133,12 @@ class LithiumRoom extends Component {
      * @param username
      */
     initialLoadingOfMessages = (messages, username) => {
-        const firstMessage = messages[0];
-        firstMessage.isFirstMessage = true;
-        const lastMessage = messages.slice(-1)[0];
-        if (lastMessage) lastMessage.isLastMessage = true;
+        if (messages.length > 0) {
+            const firstMessage = messages[0];
+            firstMessage.isFirstMessage = true;
+            const lastMessage = messages.slice(-1)[0];
+            lastMessage.isLastMessage = true;
+        }
         this.setState({
             messages: messages,
             isInitialLoadingDone: true,
@@ -318,10 +312,10 @@ class LithiumRoom extends Component {
     }
 
     /**
-     * Dummy redirect to home page
+     * Dummy redirect to lithiumHoodMembers
      */
-    backToHome = () => {
-        window.location.href = '/home';
+    backToLithiumSpace = () => {
+        window.location.href = `/lithiumSpace/${this.virtualLithiumRoom.lithiumSpaceId}`
     }
 
     render() {
@@ -335,7 +329,7 @@ class LithiumRoom extends Component {
         };
 
         return (
-            <HotKeys keyMap={keyMap} handlers={handlers} configure={configure}>
+            <HotKeys keyMap={keyMap} handlers={handlers}>
                 <div>
                     {/* Toast component*/}
                     <Toaster position={Position.BOTTOM_RIGHT} ref={this.refHandlers.toaster}>
@@ -373,7 +367,7 @@ class LithiumRoom extends Component {
                             <button className={styles.largeButton} onClick={this.openManageMembersMenu}>Manage Members
                                 Menu
                             </button>
-                            <button className={styles.largeButton} onClick={this.backToHome}>Back to Home</button>
+                            <button className={styles.largeButton} onClick={this.backToLithiumSpace}>Back to My Lithium Space</button>
                         </div>
                     </Dialog>
 
@@ -382,7 +376,7 @@ class LithiumRoom extends Component {
                             {this.virtualLithiumRoom.name}
                             <Icon icon={'cog'} iconSize={20} style={{'cursor': 'pointer'}} onClick={this.openSettings}/>
                         </header>
-                        <main className={styles.lithiumChat} ref={this.lithiumRoomRef} onScroll={this.onScroll}>
+                        <main className={styles.lithiumChat} ref={this.lithiumRoomRef}>
                             {this.state.messages.map((message) => (
                                 <div key={message.id}
                                      className={`${styles.lithiumMessage} ${message.user.username === this.state.username ? styles.rightLithiumMessage : styles.leftLithiumMessage}`}>

@@ -1,9 +1,10 @@
 /* eslint no-restricted-globals: 0 */
 import axios from 'axios';
+import config from '../config/index';
 
 const {default: PQueue} = require('p-queue');
 
-const apiUrl = 'http://localhost:5000/api';
+const apiUrl = config.API_URL;
 
 const axiosClient = axios.create({timeout: 1000 * 60 * 15}); // Create custom Axios client, with a large timeout
 
@@ -32,6 +33,218 @@ function sendErrorMessage(functionName, err) {
     });
 }
 
+/* HOME WORKER FUNCTIONS */
+
+/**
+ * A helper function to send that api worker is initialized successfully
+ */
+function apiWorkerInitializedHome() {
+    try {
+        self.postMessage({
+            name: 'api-worker-initialized-home',
+            payload: {},
+        });
+    } catch (err) {
+        sendErrorMessage('apiWorkerInitializedHome', err)
+    }
+}
+
+/**
+ * Send to API to get the lithium hood and user
+ */
+async function getLithiumHood() {
+    try {
+        const response = await axios.get(`${apiUrl}/lithiumHood/get_lithium_hood`, {
+            headers: {
+                Token: token,
+            },
+        });
+        self.postMessage({
+            name: 'received-lithium-hood',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('loadMessagesFromServer', err)
+    }
+}
+
+/**
+ * Send to API to get the lithium rooms for user
+ */
+async function getLithiumRooms() {
+    try {
+        const response = await axios.get(`${apiUrl}/chatRoom/get_chat_rooms`, {
+            headers: {
+                Token: token,
+            },
+        });
+        self.postMessage({
+            name: 'received-lithium-rooms',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('loadLithiumRoomsFromServer', err)
+    }
+}
+
+/**
+ * Tells Api to create new lithium room
+ * @param params
+ * @returns {Promise<void>}
+ */
+async function createLithiumRoom(params) {
+    try {
+        const response = await axiosClient.post(`${apiUrl}/chatRoom/create_group_lithium_room`, {
+            name: params.newLithiumRoomName,
+        }, {
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+        self.postMessage({
+            name: 'created-lithium-room',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
+/**
+ * Tells Api to get lithium hood
+ * @returns {Promise<void>}
+ */
+async function getLithiumHoodMembers() {
+    try {
+        const response = await axiosClient.get(`${apiUrl}/lithiumHoodMember/get_lithium_hood_members`,  {
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+        self.postMessage({
+            name: 'received-lithium-hood-members',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
+/**
+ * Tells Api to create send lithium hood request
+ * @param params
+ * @returns {Promise<void>}
+ */
+async function sendLithiumHoodRequest(params) {
+    try {
+        const response = await axiosClient.post(`${apiUrl}/lithiumHoodRequest/send_hood_request`, {
+            username: params.username,
+        }, {
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+        self.postMessage({
+            name: 'sent-lithium-hood-request',
+            payload: {
+                username: params.username,
+            },
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
+/**
+ * Tells Api to get lithium hood requests
+ * @returns {Promise<void>}
+ */
+async function getLithiumHoodRequests() {
+    try {
+        const response = await axiosClient.get(`${apiUrl}/lithiumHoodRequest/get_hood_requests`,  {
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+        self.postMessage({
+            name: 'received-lithium-hood-requests',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
+/**
+ * Tells Api to accept lithium hood request
+ * @returns {Promise<void>}
+ */
+async function acceptLithiumHoodRequests(params) {
+    try {
+        const response = await axiosClient.post(`${apiUrl}/lithiumHoodRequest/${params.lithiumHoodRequestId}/accept_hood_request`,{},{
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+        self.postMessage({
+            name: 'accepted-lithium-hood-request',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
+/**
+ * Tells Api to decline lithium hood request
+ * @returns {Promise<void>}
+ */
+async function declineLithiumHoodRequests(params) {
+    try {
+        const response = await axiosClient.post(`${apiUrl}/lithiumHoodRequest/${params.lithiumHoodRequestId}/decline_hood_request`,{},{
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+        self.postMessage({
+            name: 'declined-lithium-hood-request',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
+/**
+ * Tells Api to remove user from lithium hood
+ * @returns {Promise<void>}
+ */
+async function removingLithiumHoodMember(params) {
+    try {
+        const response = await axiosClient.post(`${apiUrl}/lithiumHoodMember/remove_user_from_hood`,{
+            removedUserUsername: params.username
+        },{
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+        self.postMessage({
+            name: 'removed-lithium-hood-member',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
+/* LITHIUM ROOM WORKER FUNCTIONS */
 /**
  * A helper function to send that api worker is initialized successfully
  */
@@ -228,8 +441,51 @@ self.onmessage = async (e) => {
     const taskPayload = e.data.payload;
 
     // console.log(`apiWorker - received task ${taskName} with ${JSON.stringify(taskPayload)}`);
-
-    if (taskName === 'init') {
+    /* LITHIUM SPACE FUNCTIONS */
+    if (taskName === 'init-home') {
+        clientId = taskPayload.clientId;
+        token = taskPayload.token;
+        await queue.add(async () => {
+            await apiWorkerInitializedHome();
+        });
+    } else if (taskName === 'getting-lithium-hood') {
+        await queue.add(async () => {
+            await getLithiumHood();
+        });
+    } else if (taskName === 'getting-lithium-rooms') {
+        await queue.add(async () => {
+            await getLithiumRooms();
+        });
+    } else if (taskName === 'creating-lithium-room') {
+        await queue.add(async () => {
+            await createLithiumRoom(taskPayload);
+        });
+    } else if (taskName === 'getting-lithium-hood-members') {
+        await queue.add(async () => {
+            await getLithiumHoodMembers();
+        });
+    } else if (taskName === 'getting-lithium-hood-requests') {
+        await queue.add(async () => {
+            await getLithiumHoodRequests();
+        });
+    } else if (taskName === 'sending-lithium-hood-request') {
+        await queue.add(async () => {
+            await sendLithiumHoodRequest(taskPayload);
+        });
+    } else if (taskName === 'accepting-lithium-hood-request') {
+        await queue.add(async () => {
+            await acceptLithiumHoodRequests(taskPayload);
+        });
+    } else if (taskName === 'declining-lithium-hood-request') {
+        await queue.add(async () => {
+            await declineLithiumHoodRequests(taskPayload);
+        });
+    } else if (taskName === 'removing-lithium-hood-member') {
+        await queue.add(async () => {
+            await removingLithiumHoodMember(taskPayload);
+        });
+        /* LITHIUM ROOM FUNCTIONS */
+    } else if (taskName === 'init') {
         /* Initialization code */
         clientId = taskPayload.clientId;
         token = taskPayload.token;

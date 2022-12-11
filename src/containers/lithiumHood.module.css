@@ -1,0 +1,236 @@
+:root {
+    --main-black: #0E0E10;
+    --second-black: #353839;
+    --third-black: #555555;
+    --main-yellow: #fee715ff;
+    --second-yellow: #fdff00;
+    --main-white: #fff;
+    --border: 1px solid var(--second-black);
+    --nav-color: var(--main-yellow);
+    --nav-hover: var(--second-yellow);
+    --new-room-bg: var(--main-black);
+    --new-room-color: var(--second-yellow);
+    --new-room-input-bg: var(--third-black);
+    --new-room-input-color: var(--main-white);
+}
+
+body {
+    background: var(--main-black);
+    height: 100%;
+}
+
+*:focus {
+    outline: inherit !important;
+    outline-offset: 1px !important;
+}
+
+
+.home {
+    height: 100%;
+}
+
+.noLithiumRooms {
+    margin: 50px;
+    color: var(--main-yellow);
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    display:flex;
+    overflow:hidden;
+    justify-content: center;
+    height: 50px;
+}
+
+.trapezoid {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+    border: 80px solid var(--main-black);
+    border-top: 0 solid;
+    border-bottom: 100px solid rgba(1, 1, 1, .4);
+    -webkit-border-radius: 20px 20px 0 0;
+    border-radius: 20px 20px 0 0;
+    color: var(--main-white);
+    transform: rotateX(180deg);
+    margin-top:-53px;
+    width: 700px;
+    position: relative;
+    transition: all 0.7s ease;
+}
+
+.subnav {
+    float: left;
+    overflow: hidden;
+    width: 33%;
+}
+
+.subnav:first-child {
+    float: left;
+    overflow: hidden;
+    width: 25%;
+    text-align: center;
+}
+
+.subnav:nth-child(2) {
+    text-align: center;
+    overflow: hidden;
+    width: 50%;
+}
+
+.subnav:last-child {
+    float: right;
+    overflow: hidden;
+    width: 25%;
+    text-align: center;
+}
+
+.subnav .subnavbtn {
+    transform: rotateX(180deg);
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 25px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    transition: all 0.5s ease;
+}
+
+.subnav:hover .subnavbtn {
+    color: var(--main-yellow);
+    cursor: pointer;
+}
+
+.accountDrawer {
+    background-color: var(--main-black) !important;
+    background: var(--main-black) !important;
+    color: var(--main-white) !important;
+}
+
+.accountDrawer * {
+    color: var(--main-white) !important;
+}
+
+.crewDrawer {
+    background-color: var(--main-black) !important;
+    background: var(--main-black) !important;
+}
+
+.crewDrawer * {
+    color: var(--main-white) !important;
+}
+
+.newLithiumRoomButton {
+    border: 0 !important;
+    border-radius: 3px !important;
+    width: 100px;
+    height: 30px;
+    margin-top: 20px;
+    background: var(--main-black) !important;
+    color: #fff !important;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.23s;
+}
+.newLithiumRoomButton:hover {
+    background: var(--button-bg-hover) !important;
+    color: var(--button-color-hover) !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.main {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    margin: auto;
+}
+
+.createRoomButton {
+    margin-bottom: 20px;
+    border: 0;
+    border-radius: 3px;
+    width: 200px;
+    height: 50px;
+    margin-top: 20px;
+    background: var(--main-black);
+    color: #fff;
+    font-weight: bold;
+    font-size: large;
+    cursor: pointer;
+    transition: background 0.23s;
+}
+
+.createRoomButton:hover {
+    background: var(--button-bg-hover);
+    color: var(--button-color-hover);
+}
+
+.lithiumRoomsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.lithiumRoom {
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 75px;
+    background-color: var(--second-black);
+    color: var(--main-white);
+    border-radius: 5px;
+    width: 900px;
+    box-shadow: 0 0 0 1px black;
+    margin-bottom: 10px;
+}
+
+.lithiumRoom:hover {
+    background-color: var(--third-black);
+    border: 1px solid var(--main-yellow);
+}
+
+.lithiumRoomName {
+    position: relative;
+    width: fit-content;
+    left: 10px;
+    top: 10px;
+    font-size: medium;
+    font-weight: 600;
+}
+
+.lithiumRoomInfo {
+    width: 100%;
+    font-size: medium;
+    font-weight: 400;
+}
+
+.lithiumRoomInfoLastMessage {
+    margin-top: 20px;
+    max-width: 70%;
+    width: fit-content;
+    font-size: medium;
+    font-weight: 300;
+    position: relative;
+    left: 20px;
+    float: left;
+}
+
+.lithiumRoomInfoLastMessageTime {
+    margin-top: 20px;
+    max-width: 30%;
+    width: fit-content;
+    font-size: medium;
+    font-weight: 300;
+    position: relative;
+    right: 20px;
+    float: right;
+}
