@@ -61,7 +61,7 @@ class SignUpForm extends Component {
                 password: this.state.password,
                 username: this.state.username,
             });
-            this.parentFunctions.setToken(response.data.accessToken);
+            this.parentFunctions.setToken(response.data.accessToken, response.data.lithiumHood.id);
         } catch (e) {
             this.parentFunctions.showError(e.response.data.message);
             this.setState({

@@ -7,17 +7,90 @@ let clientId = null;
 /* The Lithium Room ID that we are watching websocket messages for */
 let lithiumRoomId = null;
 
+/* The Lithium Hood ID that we are watching websocket messages for */
+let lithiumHoodId = null;
+
 /* Variable to hold our websocket client object */
 let ws = null;
 
 /* Set up our task queue */
 const queue = new PQueue({concurrency: 1});
 
+/* Array to buffer updates we'll send back to the lithium hood */
+const lithiumHoodUpdateBuffer = [];
+
 /* Array to buffer updates we'll send back to the lithium room */
 const lithiumRoomUpdateBuffer = [];
 
 
-async function setUpWebsockets() {
+async function setUpLithiumHoodWebsockets() {
+    // console.log('worker - setUpWebsockets');
+
+    /* Set up websockets - pass our lithium room id as the identifier */
+    ws = new WebSocket(`ws://localhost:5001?clientId=${clientId}&lithiumHoodId=${lithiumHoodId}`);
+
+    ws.onopen = () => {
+        // console.log('WebSocket Client Connected');
+    };
+    ws.onmessage = async (message) => {
+        const messageData = JSON.parse(message.data);
+
+        /* If *this* client is the original sender of the websockets message or it is not automated, then skip **/
+        if (messageData.sourceId === clientId && !messageData.type.includes('automated')) {
+            return;
+        }
+
+        if (messageData.type === 'received-request') {
+            await queue.add(async () => {
+                /* Send a message to the VirtualLithiumRoom that message is received */
+                lithiumHoodUpdateBuffer.push({
+                    name: 'received-request',
+                    payload: {
+                        message: messageData.payload,
+                    },
+                });
+            });
+        } else if (messageData.type === 'accepted-request') {
+            lithiumHoodUpdateBuffer.push({
+                name: 'accepted-request',
+                payload: {
+                    message: messageData.payload,
+                },
+            });
+        } else if (messageData.type === 'removed-user-from-the-hood') {
+            lithiumHoodUpdateBuffer.push({
+                name: 'removed-user-from-the-hood',
+                payload: {
+                    message: messageData.payload,
+                },
+            });
+        } else if (messageData.type === 'automated-new-lithium-room') {
+            lithiumHoodUpdateBuffer.push({
+                name: 'automated-new-lithium-room',
+                payload: {
+                    message: messageData.payload,
+                },
+            });
+        } else if (messageData.type === 'received-message') {
+            lithiumHoodUpdateBuffer.push({
+                name: 'received-message',
+                payload: {
+                    message: messageData.payload,
+                },
+            });
+        }
+    };
+    ws.onclose = () => {
+        setUpLithiumHoodWebsockets(); /* Restart websockets */
+    };
+
+    ws.onerror = async (err) => {
+        console.log(err);
+    }
+}
+
+
+async function setUpLithiumRoomWebsockets() {
     // console.log('worker - setUpWebsockets');
 
     /* Set up websockets - pass our lithium room id as the identifier */
@@ -47,7 +120,7 @@ async function setUpWebsockets() {
         }
     };
     ws.onclose = () => {
-        setUpWebsockets(); /* Restart websockets */
+        setUpLithiumRoomWebsockets(); /* Restart websockets */
     };
 
     ws.onerror = async (err) => {
@@ -60,12 +133,13 @@ async function setUpWebsockets() {
  * @returns {Promise<void>}
  */
 async function checkBuffer() {
-    const updateLength = lithiumRoomUpdateBuffer.length;
+    const updates = lithiumHoodId ? lithiumHoodUpdateBuffer : lithiumRoomUpdateBuffer
+    const updateLength = updates.length;
     // console.log(`updateLength: ${updateLength}`);
 
     const updatesToSendOut = [];
     for (let count = 0; count < updateLength; count++) {
-        const update = lithiumRoomUpdateBuffer.shift();
+        const update = updates.shift();
         if (update) {
             updatesToSendOut.push(update);
         }
@@ -107,9 +181,13 @@ self.onmessage = async (e) => {
     if (taskName === 'init') {
         /* Initialization code */
         clientId = taskPayload.clientId;
-        lithiumRoomId = taskPayload.lithiumRoomId;
-
-        await setUpWebsockets();
+        if (taskPayload.lithiumHoodId) {
+            lithiumHoodId = taskPayload.lithiumHoodId;
+            await setUpLithiumHoodWebsockets();
+        } else if (taskPayload.lithiumRoomId) {
+            lithiumRoomId = taskPayload.lithiumRoomId;
+            await setUpLithiumRoomWebsockets();
+        }
 
         /* Start the bulk buffer update checker */
         setTimeout(() => {

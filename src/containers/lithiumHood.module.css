@@ -120,7 +120,6 @@ body {
 .crewDrawer {
     background-color: var(--main-black) !important;
     background: var(--main-black) !important;
-    color: var(--main-white) !important;
 }
 
 .crewDrawer * {

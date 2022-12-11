@@ -5,7 +5,7 @@ import LoginForm from "../loginForm";
 import SignUpForm from "../signUpForm";
 import About from "../about";
 
-import homeStyles from '../../containers/home.module.css';
+import homeStyles from '../../containers/lithiumHood.module.css';
 import styles from './unauthenticatedHome.module.css';
 
 class unauthenticatedHome extends Component {

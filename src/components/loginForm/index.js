@@ -28,7 +28,7 @@ class LoginForm extends Component {
                 email: this.state.email,
                 password: this.state.password,
             });
-            this.parentFunctions.setToken(response.data.accessToken);
+            this.parentFunctions.setToken(response.data.accessToken, response.data.lithiumHood.id);
         } catch (e) {
             this.setState({
                 hasError: true,
