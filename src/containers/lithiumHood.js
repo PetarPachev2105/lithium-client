@@ -261,8 +261,9 @@ class LithiumHood extends Component {
                       </div>
                       <div className={styles.lithiumRoomInfo}>
                         <div className={styles.lithiumRoomInfoLastMessage}>
-                          {chatRoom.lastMessage.user.username} :{" "}
-                          {chatRoom.lastMessage.content}
+                          {chatRoom.lastMessage.user.username +
+                            ": " +
+                            chatRoom.lastMessage.content}
                         </div>
                         <div className={styles.lithiumRoomInfoLastMessageTime}>
                           {chatRoom.lastMessage.sent_at_readable}

@@ -112,10 +112,14 @@
 
 .lithiumMessageContentRight {
     float: right;
+    width: 100%;
+    word-break: break-word;
 }
 
 .lithiumMessageContentLeft {
     float: left;
+    width: 100%;
+    word-break: break-word;
 }
 
 .leftLithiumMessage .lithiumMessageBubble {
