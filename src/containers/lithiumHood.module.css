@@ -219,7 +219,7 @@ a {
     font-size: medium;
     width: 100%;
     overflow: hidden;
-    display: inline-block;
+    display: flex;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: 300;

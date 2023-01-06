@@ -406,7 +406,7 @@ class LithiumRoom extends Component {
             onClose={this.closeSettingsDialog}
             icon="cog"
             title="Settings"
-            style={{ width: "700px" }}
+            style={{ width: "700px", margin: "0 15px" }}
           >
             <div className={Classes.DIALOG_BODY}>
               <button

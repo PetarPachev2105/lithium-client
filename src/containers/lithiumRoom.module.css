@@ -200,9 +200,54 @@
     color: var(--button-color-hover) !important;
 }
 
+
 @media (max-width:800px) {
     .lithiumRoomNewMessage{
         display: flex;
-        flex-direction: column;
+        
     }
+    .lithiumRoomMessageInput{
+        width: 85%;
+    }
+    .lithiumRoomMessageSend{
+        width: 12%;
+        padding: 8px 0px;
+       }
+    .lithiumMessageBubble{
+        max-width: 300px;
+    }
+    .lithiumMessageImage{
+        width: 40px;
+        height: 40px;
+    }
+   
+}
+@media (max-width:500px) {
+    .lithiumRoomNewMessage{
+        display: flex;
+    }
+    .lithiumRoomMessageInput{
+        width: 78%;
+    }
+   .lithiumRoomMessageSend{
+    width: 20%;
+    margin-left: 5px;
+    padding: 8px 0px;
+   }
+   .lithiumMessageBubble{
+    max-width: 230px;
+}
+.lithiumMessageImage{
+    width: 30px;
+    height: 30px;
+}
+}
+
+@media (max-width:450px){
+    .lithiumMessageBubble{
+        max-width: 170px;
+        font-size: 12px;
+    }
+   
+    
 }
