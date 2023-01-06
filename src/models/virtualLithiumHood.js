@@ -31,6 +31,10 @@ class VirtualLithiumHood {
             removedLithiumHoodMember: null,
             updateLastMessage: null,
             logout: null,
+            sentLithium: null,
+            setUnseenLithiums: null,
+            addUnseenLithium: null,
+            setCountOfUnseenLithiums: null,
         };
 
         this.eventListeners = {}
@@ -98,6 +102,14 @@ class VirtualLithiumHood {
             this.declinedLithiumHoodRequest(payload);
         } else if (name === 'removed-lithium-hood-member') {
             this.removedLithiumHoodMember(payload);
+        } else if (name === 'sent-lithium') {
+            this.sentLithium(payload);
+        } else if (name === 'get-count-of-unseen-lithiums') {
+            this.getCountOfUnseenLithiums(payload.count);
+        } else if (name === 'get-unseen-lithiums') {
+            this.getUnseenLithiums(payload);
+        } else if (name === 'seen-all_messages') {
+            this.seenAllLithiums();
         } else if (name === 'error') {
             this.broadcastEvents(this.eventList.error, payload.message);
             this.lithiumHoodFunctions.showError(payload.message);
@@ -138,8 +150,9 @@ class VirtualLithiumHood {
         } else if (name === 'automated-new-lithium-room') {
             this.receivedLithiumRooms(payload);
         } else if (name === 'received-message') {
-            
             this.lithiumHoodFunctions.updateLastMessage(payload.lithiumRoom, payload.message);
+        } else if (name === 'received-lithium') {
+            new Notification(`You received a lit from ${payload.user.username}`)
         }
     }
 
@@ -358,6 +371,70 @@ class VirtualLithiumHood {
         if (!isWebsocketUpdate) {
             this.lithiumHoodFunctions.showToast(`I understand I also do not like ${user.username}`);
         }
+    }
+
+    gettingCountOfUnseenLithiums = () => {
+        try {
+            this.apiWorker.postMessage({
+                name: 'getting-count-of-unseen-lithiums',
+            });
+        } catch (err) {
+            console.log(`Worker init message send error: ${err}`);
+        }
+    }
+
+    getCountOfUnseenLithiums = (count) => {
+        if (count > 0) {
+            this.lithiumHoodFunctions.showToast(`You have ${count} unseen lits`);
+        }
+        this.lithiumHoodFunctions.setCountOfUnseenLithiums(count);
+    }
+
+    gettingUnseenLithiums = () => {
+        try {
+            this.apiWorker.postMessage({
+                name: 'getting-unseen-lithiums',
+            });
+        } catch (err) {
+            console.log(`Worker init message send error: ${err}`);
+        }
+    }
+
+    getUnseenLithiums = (unseenLithiums) => {
+        this.lithiumHoodFunctions.setUnseenLithiums(unseenLithiums);
+    }
+
+    seeingAllLithiums = () => {
+        try {
+            this.apiWorker.postMessage({
+                name: 'seeing-all-lithiums',
+            });
+        } catch (err) {
+            console.log(`Worker init message send error: ${err}`);
+        }
+    }
+
+    seenAllLithiums = () => {
+        this.gettingCountOfUnseenLithiums();
+    }
+
+    sendingLithium = (username) => {
+        try {
+            this.apiWorker.postMessage({
+                name: 'sending-lithium',
+                payload: {
+                    username: username,
+                    lithiumHood_id: this.lithiumHoodId,
+                },
+            });
+        } catch (err) {
+            console.log(`Worker init message send error: ${err}`);
+        }
+    }
+
+    sentLithium = () => {
+        this.lithiumHoodFunctions.sentLithium();
+        this.lithiumHoodFunctions.showToast(`Successfully sent lit`);
     }
 }
 

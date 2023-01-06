@@ -80,6 +80,13 @@ async function setUpLithiumHoodWebsockets() {
                     message: messageData.payload,
                 },
             });
+        } else if (messageData.type === 'received-lithium') {
+            lithiumHoodUpdateBuffer.push({
+                name: 'received-lithium',
+                payload: {
+                    message: messageData.payload,
+                },
+            });
         }
     };
     ws.onclose = () => {

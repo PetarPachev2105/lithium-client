@@ -17,6 +17,7 @@ import Account from '../components/account';
 import LithiumHoodMembers from '../components/lithiumHoodMembers';
 import VirtualLithiumHood from '../models/virtualLithiumHood';
 import LoadingAnimation from '../components/loadingAnimation';
+import LithiumSent from "../components/lithiumSent";
 
 class LithiumHood extends Component {
     constructor(props) {
@@ -181,10 +182,12 @@ class LithiumHood extends Component {
         return (
             <div className={styles.home}>
                 {!this.state.isInitialLoadingDone && <LoadingAnimation />}
+
                 {/* Toast component*/}
                 <Toaster position={Position.BOTTOM_RIGHT} ref={this.refHandlers.toaster}>
                     {this.state.toasts.map(toast => <Toast {...toast} />)}
                 </Toaster>
+
                 {this.state.isInitialLoadingDone && this.state.user && <div>
                     <nav className={styles.navbar}>
                         <div className={styles.trapezoid}>
@@ -207,6 +210,9 @@ class LithiumHood extends Component {
                             </div>
                         </div>
                     </nav>
+
+                    {/* Lithium Sent component*/}
+                    <LithiumSent showError={this.showError} showToast={this.showToast} virtualLithiumHood={this.virtualLithiumHood} />
 
                     {this.state.lithiumRooms.length < 1 && <div className={styles.noLithiumRooms}>
                         <h3> Currently you do not have any Lithium Rooms :( </h3>

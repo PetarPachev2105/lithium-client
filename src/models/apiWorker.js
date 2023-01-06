@@ -244,6 +244,95 @@ async function removingLithiumHoodMember(params) {
     }
 }
 
+/**
+ * Tells Api to send lithium
+ * @returns {Promise<void>}
+ */
+async function sendingLithium(params) {
+    try {
+        const response = await axiosClient.post(`${apiUrl}/lithiumSent/send_lithium`,{
+            username: params.username,
+            lithiumHood_id: params.lithiumHood_id,
+        },{
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+        self.postMessage({
+            name: 'sent-lithium',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
+/**
+ * Tells Api to get unseen lithiums
+ * @returns {Promise<void>}
+ */
+async function gettingCountOfUnseenLithiums() {
+    try {
+        const response = await axiosClient.get(`${apiUrl}/lithiumSent/get_count_of_unseen_lithiums`,{
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+        self.postMessage({
+            name: 'get-count-of-unseen-lithiums',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
+/**
+ * Tells Api to get unseen lithiums
+ * @returns {Promise<void>}
+ */
+async function gettingUnseenLithiums() {
+    try {
+        const response = await axiosClient.get(`${apiUrl}/lithiumSent/get_lithiums`,{
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+        self.postMessage({
+            name: 'get-unseen-lithiums',
+            payload: response.data,
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
+/**
+ * Tells Api to seen lithiums
+ * @returns {Promise<void>}
+ */
+async function seeingAllLithiums() {
+    try {
+        await axiosClient.post(`${apiUrl}/lithiumSent/see_all_lithiums`, {
+
+        },{
+            headers: {
+                Token: token,
+                ClientId: clientId,
+            },
+        });
+
+        self.postMessage({
+            name: 'seen-all-lithiums',
+        });
+    } catch (err) {
+        sendErrorMessage('sendMessage', err)
+    }
+}
+
 /* LITHIUM ROOM WORKER FUNCTIONS */
 /**
  * A helper function to send that api worker is initialized successfully
@@ -483,6 +572,22 @@ self.onmessage = async (e) => {
     } else if (taskName === 'removing-lithium-hood-member') {
         await queue.add(async () => {
             await removingLithiumHoodMember(taskPayload);
+        });
+    } else if (taskName === 'sending-lithium') {
+        await queue.add(async () => {
+            await sendingLithium(taskPayload);
+        });
+    } else if (taskName === 'getting-unseen-lithiums') {
+        await queue.add(async () => {
+            await gettingUnseenLithiums();
+        });
+    } else if (taskName === 'seeing-all-lithiums') {
+        await queue.add(async () => {
+            await seeingAllLithiums();
+        });
+    } else if (taskName === 'getting-count-of-unseen-lithiums') {
+        await queue.add(async () => {
+            await gettingCountOfUnseenLithiums();
         });
         /* LITHIUM ROOM FUNCTIONS */
     } else if (taskName === 'init') {
