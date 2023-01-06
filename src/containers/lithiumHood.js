@@ -317,7 +317,7 @@ class LithiumHood extends Component {
                 onClose={this.toggleNewLithiumRoomDialog}
                 icon={"chat"}
                 title="Create Lithium Room"
-                style={{ width: "700px" }}
+                style={{ width: "700px", margin: "0px 15px" }}
                 className={styles.newLithiumRoomDialog}
               >
                 <div className={Classes.DIALOG_BODY}>

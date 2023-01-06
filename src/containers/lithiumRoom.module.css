@@ -199,3 +199,10 @@
     background: var(--button-bg-hover) !important;
     color: var(--button-color-hover) !important;
 }
+
+@media (max-width:800px) {
+    .lithiumRoomNewMessage{
+        display: flex;
+        flex-direction: column;
+    }
+}
