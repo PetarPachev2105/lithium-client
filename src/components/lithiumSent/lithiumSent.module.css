@@ -1,0 +1,14 @@
+.component {
+    font-size: 13px;
+    line-height: 16px;
+
+    position: fixed;
+    bottom: 65px;
+    right: 40px;
+
+    z-index: 39;
+
+    background: var(--main-yellow);
+    border: 1px solid var(--main-black);
+    border-radius: 40px;
+}

@@ -1,0 +1,170 @@
+.component {
+    text-align: center;
+    margin: auto;
+}
+
+.sendLithiumHoodRequestForm {
+    text-align: left;
+    width: 90%;
+    margin: auto;
+}
+
+.inputField {
+    background-color: var(--second-black)!important;
+    background: var(--second-black)!important;
+}
+
+.inputField * {
+    background-color: var(--second-black) !important;
+    background: var(--second-black) !important;
+    color: var(--main-white) !important;
+}
+
+.submitButton {
+    text-align: center !important;
+    font-weight: 600;
+    width: 120px;
+    height: 40px;
+    margin-top: 20px;
+    float: right;
+    background: var(--main-black) !important;
+    color: var(--main-white) !important;
+}
+
+.submitButton:hover {
+    background: var(--main-yellow) !important;
+    color: var(--main-black) !important;
+}
+
+.notRepliedRequest {
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 75px;
+    background-color: var(--second-black);
+    color: var(--main-white);
+    border-radius: 5px;
+    width: 100%;
+    box-shadow: 0 0 0 1px black;
+    margin-bottom: 10px;
+}
+
+.notRepliedRequest:hover {
+    background-color: var(--third-black);
+    border: 1px solid var(--main-yellow);
+}
+
+.notRepliedRequestInfoContainer {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.notRepliedRequestInfo {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+}
+
+.notRepliedRequestActionContainer {
+    position: relative;
+    display: flex;
+    width: 50%;
+    height: 100%;
+    float: right;
+}
+
+.notRepliedRequestActionAccept {
+    float: left;
+    width: 50%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.notRepliedRequestActionDecline {
+    float: right;
+    width: 50%;
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.notRepliedRequestActionButton {
+    height: 40px;
+    width: 90px;
+    font-weight: 600;
+}
+
+.lithiumHoodMember {
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 75px;
+    background-color: var(--second-black);
+    color: var(--main-white);
+    border-radius: 5px;
+    width: 100%;
+    box-shadow: 0 0 0 1px black;
+    margin-bottom: 10px;
+}
+
+.lithiumHoodMember:hover {
+    background-color: var(--third-black);
+    border: 1px solid var(--main-yellow);
+}
+
+.lithiumHoodMemberInfoContainer {
+    width: 33%;
+    height: 100%;
+    float: left;
+}
+
+.lithiumHoodMemberInfo {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+}
+
+.lithiumHoodRoleContainer {
+    position: relative;
+    width: 33%;
+    height: 100%;
+    float: left;
+}
+
+.lithiumHoodRole {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+}
+
+.lithiumHoodRemoveContainer {
+    position: relative;
+    width: 33%;
+    height: 100%;
+    float: right;
+}
+
+.lithiumHoodRemove {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+}
+
+.lithiumHoodRemoveButton {
+    height: 40px;
+    width: 90px;
+    font-weight: 600;
+}

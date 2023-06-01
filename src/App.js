@@ -1,17 +1,18 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component } from 'react';
 import UnauthenticatedHome from "./components/unauthenticatedHome";
-import Home from './containers/home';
+import LithiumHood from './containers/lithiumHood';
 import './App.css';
 import axios from "axios";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import LithiumRoom from "./containers/lithiumRoom";
+import config from './config';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoggedIn: !!localStorage.getItem('token'),
-            user: false,
+            lithiumHoodId: false,
         }
     }
 
@@ -23,12 +24,14 @@ class App extends Component {
     }
 
     /**
-     * Save token to the local storage
+     * Save token to the local storage and save lithiumSpaceId
      * @param token
+     * @param lithiumHoodId
      */
-    setToken = (token) => {
+    setToken = (token, lithiumHoodId) => {
         localStorage.setItem('token', token);
         this.setState({
+            lithiumSpaceId: lithiumHoodId,
             isLoggedIn: true,
         }, async () => {
             await this.checkToken();
@@ -41,7 +44,7 @@ class App extends Component {
     logout = () => {
         localStorage.removeItem('token');
         this.setState({
-            user: false,
+            lithiumHoodId: false,
             isLoggedIn: false,
         }, () => {
             window.location.href = '/';
@@ -54,14 +57,10 @@ class App extends Component {
      */
     checkToken = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/session/check_token', {}, {
+            await axios.post(`${config.API_URL}/session/check_token`, {}, {
                 headers: {
                     Token: localStorage.getItem('token'),
                 },
-            });
-            const user = response.data.user;
-            this.setState({
-                user: user,
             });
         } catch (err) {
             this.logout();
@@ -73,12 +72,10 @@ class App extends Component {
             <Router>
                 <div>
                     <Switch>
+                        <Route path="/lithiumHood/:lithiumHoodId" component={LithiumHood} />
                         <Route path="/lithiumRoom/:lithiumRoomId" component={LithiumRoom}/>
-                        <Route path="/home" render={() =>
-                            <Home logout={this.logout} user={this.state.user}/>
-                        }/>
                         <Route render={() => {
-                            window.location.href = '/home';
+                            window.location.href = `/lithiumHood/${this.state.lithiumHoodId}`;
                         }}/>
                     </Switch>
                 </div>
@@ -88,11 +85,11 @@ class App extends Component {
             <Router>
                 <div>
                     <Switch>
-                        <Route path="/" render={() =>
+                        <Route exact path="/" render={() =>
                             <UnauthenticatedHome setToken={this.setToken}/>
                         }/>
                         <Route render={() => {
-                            window.location.href = '/home';
+                            window.location.href = '/';
                         }}/>
                     </Switch>
                 </div>

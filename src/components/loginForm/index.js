@@ -4,6 +4,7 @@ import styles from './loginForm.module.css';
 import axios from 'axios';
 import errorGif from "../../assets/errorGifs/error2.gif";
 import funnyGif from "../../assets/funnyGifs/funny4.gif";
+import config from "../../config/index";
 
 class LoginForm extends Component {
     constructor(props) {
@@ -24,11 +25,11 @@ class LoginForm extends Component {
 
     submitForm = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/user/login', {
+            const response = await axios.post(`${config.API_URL}/user/login`, {
                 email: this.state.email,
                 password: this.state.password,
             });
-            this.parentFunctions.setToken(response.data.accessToken);
+            this.parentFunctions.setToken(response.data.accessToken, response.data.lithiumHood.id);
         } catch (e) {
             this.setState({
                 hasError: true,

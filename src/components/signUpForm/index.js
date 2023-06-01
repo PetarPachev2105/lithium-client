@@ -4,6 +4,7 @@ import styles from './signUpForm.module.css';
 import axios from 'axios';
 import errorGif from '../../assets/errorGifs/error1.gif';
 import funnyGif from '../../assets/funnyGifs/funny1.gif';
+import config from "../../config/index";
 
 class SignUpForm extends Component {
     constructor(props) {
@@ -56,12 +57,12 @@ class SignUpForm extends Component {
 
     submitForm = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/user/register', {
+            const response = await axios.post(`${config.API_URL}/user/register`, {
                 email: this.state.email,
                 password: this.state.password,
                 username: this.state.username,
             });
-            this.parentFunctions.setToken(response.data.accessToken);
+            this.parentFunctions.setToken(response.data.accessToken, response.data.lithiumHood.id);
         } catch (e) {
             this.parentFunctions.showError(e.response.data.message);
             this.setState({

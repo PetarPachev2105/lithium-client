@@ -10,6 +10,9 @@ function VirtualLithiumRoom(token, clientId, lithiumRoomId) {
     // Lithium Room where we are;
     this.lithiumRoomId = lithiumRoomId;
 
+    // Lithium Room where we are;
+    this.lithiumSpaceId = null;
+
     this.name = null;
 
     this.username = null;
@@ -66,6 +69,7 @@ function VirtualLithiumRoom(token, clientId, lithiumRoomId) {
                     chatRoomId: this.lithiumRoomId,
                 }
             });
+            this.gettingLithiumSpace();
         } else if (taskName === 'messages-loaded') {
             this.setName(taskPayload.name);
             this.setUsername(taskPayload.username);
@@ -83,6 +87,8 @@ function VirtualLithiumRoom(token, clientId, lithiumRoomId) {
             this.changedMemberPermission(taskPayload);
         } else if (taskName === 'loaded-old-messages') {
             this.loadedOldMessages(taskPayload);
+        } else if (taskName === 'received-lithium-space') {
+            this.receivedLithiumSpace(taskPayload);
         } else if (taskName === 'error') {
             this.lithiumRoomFunctions.showError(taskPayload.message);
         }
@@ -109,7 +115,7 @@ function VirtualLithiumRoom(token, clientId, lithiumRoomId) {
  */
 VirtualLithiumRoom.prototype.broadcastEvents = function (eventName, payload) {
     if (!this.eventList[eventName]) {
-        // this.logger.error('broadcastEvent', `WARNING: ${eventName} not found in Workbook.eventsList`);
+        // console.log('broadcastEvent', `WARNING: ${eventName} not found in eventsList`);
     }
 
     const listeners = this.eventListeners[eventName] || [];
@@ -156,6 +162,31 @@ VirtualLithiumRoom.prototype.removeEventListener = function (listenerId) {
         this.eventListeners[eventName] = newListeners;
     });
 };
+
+/**
+ * Get lithium space
+ */
+VirtualLithiumRoom.prototype.gettingLithiumSpace = function () {
+    try {
+        this.apiWorker.postMessage({
+            name: 'getting-lithium-space',
+            payload: {
+                clientId: this.clientId,
+                token: this.token,
+            },
+        });
+    } catch (err) {
+        console.log(`Worker init message send error: ${err}`);
+    }
+}
+
+/**
+ * Receive lithium space
+ */
+VirtualLithiumRoom.prototype.receivedLithiumSpace = function (lithiumSpace) {
+    this.lithiumSpaceId = lithiumSpace.id;
+    console.log(lithiumSpace);
+}
 
 /**
  * Sets the name of the virtual lithium room
